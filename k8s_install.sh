@@ -115,36 +115,38 @@ ip link del docker0
 #判断IP地址是否合法
 
 echo -n "请分别输入1个MAsterIP和2个NodeIP，用空格分隔:  "
-read nodeips
+nodeips = '10.64.3.7 10.64.3.8 10.64.3.9'
+# read nodeips
 
-for nodeip in $nodeips
-do
-       if
+# for nodeip in $nodeips
+# do
+#        if
 
-           echo $nodeip |egrep -q '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$' ; then
-                a=`echo $nodeip | awk -F. '{print $1}'`
-                b=`echo $nodeip | awk -F. '{print $2}'`
-                c=`echo $nodeip | awk -F. '{print $3}'`
-                d=`echo $nodeip | awk -F. '{print $4}'`
+#            echo $nodeip |egrep -q '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$' ; then
+#                 a=`echo $nodeip | awk -F. '{print $1}'`
+#                 b=`echo $nodeip | awk -F. '{print $2}'`
+#                 c=`echo $nodeip | awk -F. '{print $3}'`
+#                 d=`echo $nodeip | awk -F. '{print $4}'`
 
-                for n in  $a $b $c $d ; do
-                     if [ $n -ge 255 ] || [ $n -lt 0 ] ; then
-                         echo -e " $nodeip 是错误的IP地址! 请重新输入"
-                         exit
-                  fi
-                done
-        fi
-done
+#                 for n in  $a $b $c $d ; do
+#                      if [ $n -ge 255 ] || [ $n -lt 0 ] ; then
+#                          echo -e " $nodeip 是错误的IP地址! 请重新输入"
+#                          exit
+#                   fi
+#                 done
+#         fi
+# done
 
 MASTER_IP=$(echo $nodeips|awk -F " " '{print $1}')
 NODE1_IP=$(echo $nodeips|awk -F " " '{print $2}')
 NODE2_IP=$(echo $nodeips|awk -F " " '{print $3}')
 
 echo -n "请分别输入"$nodex"个NODE的hostname，用空格分隔:  "
-read hostnames
-m_hostname=$(echo  $hostnames|awk -F " " '{print $1}')
-n1_hostname=$(echo $hostnames|awk -F " " '{print $2}')
-n2_hostname=$(echo $hostnames|awk -F " " '{print $3}')
+hostnames = 'node1 node2 node3'
+# read hostnames
+# m_hostname=$(echo  $hostnames|awk -F " " '{print $1}')
+# n1_hostname=$(echo $hostnames|awk -F " " '{print $2}')
+# n2_hostname=$(echo $hostnames|awk -F " " '{print $3}')
 
 echo "Master_IP:  "$MASTER_IP "hostname: "$m_hostname 
 echo "NODE1_IP:  "$NODE1_IP "hostname: "$n1_hostname 
