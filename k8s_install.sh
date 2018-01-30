@@ -27,9 +27,9 @@
 
 # 开始进行集群的安装
 echo "欢迎访问https://github.com/liyubao1984/k8s-install 指出错误和提出宝贵意见。"
-sleep 5
+# sleep 5
 echo "3秒后开始安装......"
-sleep 3
+# sleep 3
 #判断当前用户是否为root用户
     user=`whoami`
     machinename=`uname -m`
@@ -115,7 +115,7 @@ ip link del docker0
 #判断IP地址是否合法
 
 echo -n "请分别输入1个MAsterIP和2个NodeIP，用空格分隔:  "
-nodeips = "10.64.3.7 10.64.3.8 10.64.3.9"
+nodeips="10.64.3.7 10.64.3.8 10.64.3.9"
 # read nodeips
 
 for nodeip in $nodeips
@@ -142,7 +142,7 @@ NODE1_IP=$(echo $nodeips|awk -F " " '{print $2}')
 NODE2_IP=$(echo $nodeips|awk -F " " '{print $3}')
 
 echo -n "请分别输入"$nodex"个NODE的hostname，用空格分隔:  "
-hostnames = "node1 node2 node3"
+hostnames="node1 node2 node3"
 # read hostnames
 m_hostname=$(echo  $hostnames|awk -F " " '{print $1}')
 n1_hostname=$(echo $hostnames|awk -F " " '{print $2}')
