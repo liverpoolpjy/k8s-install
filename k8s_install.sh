@@ -63,11 +63,11 @@ EOF
 ##翻了个小墙
 
 cd /root 
-if [ ! -f hosts ];then 
-wget https://iiio.io/download/20170709/Android%E5%AE%89%E5%8D%93%E8%B7%9FLinux%E7%B3%BB%E5%88%97.zip -O hosts.zip
-unzip -Plaod.org hosts.zip
-cat hosts >> /etc/hosts
-fi
+# if [ ! -f hosts ];then 
+# wget https://iiio.io/download/20170709/Android%E5%AE%89%E5%8D%93%E8%B7%9FLinux%E7%B3%BB%E5%88%97.zip -O hosts.zip
+# unzip -Plaod.org hosts.zip
+# cat hosts >> /etc/hosts
+# fi
 
 ##添加nodes
 ADD_NODES()
@@ -365,7 +365,7 @@ INSTALL_ETCD()
     
     if [ ! -f /usr/bin/etcd ]; then
         rm etcd*
-        wget https://github.com/coreos/etcd/releases/download/v3.2.1/etcd-v3.2.1-linux-amd64.tar.gz
+        wget http://45.77.96.85:8000/etcd-v3.2.1-linux-amd64.tar.gz
     fi
     
     tar -xvf etcd-v3.2.1-linux-amd64.tar.gz
@@ -473,7 +473,7 @@ cd /home/k8s
 
     if [ ! -f /usr/bin/kubectl ]; then
         rm -rf kubernetes*
-        wget https://dl.k8s.io/v1.6.4/kubernetes-client-linux-amd64.tar.gz
+        wget http://45.77.96.85:8000/kubernetes-client-linux-amd64.tar.gz
         tar -xzvf kubernetes-client-linux-amd64.tar.gz
         cp kubernetes/client/bin/kube*  /usr/bin/
         chmod a+x  /usr/bin/kube*
@@ -561,7 +561,7 @@ EOF
     rm flanneld.csr flanneld-csr.json
     if [ ! -f /usr/bin/flanneld ]; then
         rm -rf flannel*
-        wget https://github.com/coreos/flannel/releases/download/v0.7.1/flannel-v0.7.1-linux-amd64.tar.gz
+        wget http://45.77.96.85:8000/flannel-v0.7.1-linux-amd64.tar.gz
         mkdir flannel
         tar -xzvf flannel-v0.7.1-linux-amd64.tar.gz -C flannel
     fi
@@ -611,7 +611,7 @@ Docker()
     cd /home/k8s
     if [ ! -f /usr/bin/dockerd ];then 
          rm docker*
-         wget https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz
+         wget http://45.77.96.85:8000/docker-17.04.0-ce.tgz
          rm -f /usr/local/bin/docker*
          rm -f /usr/bin/docker*
          tar -xvf docker-17.04.0-ce.tgz
@@ -665,7 +665,7 @@ Kube_apiserver()
     cd /home/k8s
     if [ ! -f /usr/bin/kube-apiserver ];then
         rm  -rf kubernetes*
-        wget https://dl.k8s.io/v1.6.4/kubernetes-server-linux-amd64.tar.gz
+        wget http://45.77.96.85:8000/kubernetes-server-linux-amd64.tar.gz
         tar -xzvf kubernetes-server-linux-amd64.tar.gz
         cd kubernetes && tar -xzvf  kubernetes-src.tar.gz
         cp -r server/bin/{kube-apiserver,kube-controller-manager,kube-scheduler,kubectl,kube-proxy,kubelet} /usr/bin/
@@ -835,7 +835,7 @@ Node()
     
     if [ ! -f /usr/bin/kubelet ];then
         rm -rf kubernetes*
-        wget https://dl.k8s.io/v1.6.4/kubernetes-server-linux-amd64.tar.gz
+        wget http://45.77.96.85:8000/kubernetes-server-linux-amd64.tar.gz
         tar -xzvf kubernetes-server-linux-amd64.tar.gz
         cd kubernetes && tar -xzvf  kubernetes-src.tar.gz
         cp -r ./server/bin/{kube-proxy,kubelet} /usr/bin/
@@ -1032,7 +1032,7 @@ HEAPSTER()
     
     if [ ! -d heapster-1.4.0 ];then 
         rm -rf heapster*
-        wget https://codeload.github.com/kubernetes/heapster/tar.gz/v1.4.0 -O heapster-1.4.0.tar.gz
+        wget http://45.77.96.85:8000/heapster-1.4.0.tar.gz
     fi
     
     tar -zxvf heapster-1.4.0.tar.gz
