@@ -230,21 +230,21 @@ KUBE_APISERVER="https://${MASTER_IP}:6443"
     if [ ! -f  /usr/bin/cfssl ]; then
         cd /home/k8s/ssl
         rm -f ./*
-        wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+        wget http:192.168.32.112:8000/cfssl_linux-amd64
         chmod +x cfssl_linux-amd64
         cp cfssl_linux-amd64  /usr/bin/cfssl
     fi
     
     if [ ! -f /usr/bin/cfssljson ]; then
         cd /home/k8s/ssl
-        wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+        wget http:192.168.32.112:8000/cfssljson_linux-amd64
         chmod +x cfssljson_linux-amd64
         cp cfssljson_linux-amd64  /usr/bin/cfssljson
     fi
     
     if [ ! -f  /usr/bin/cfssl-certinfo ]; then
         cd /home/k8s/ssl
-        wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
+        wget http:192.168.32.112:8000/cfssl-certinfo_linux-amd64
         chmod +x cfssl-certinfo_linux-amd64
         cp cfssl-certinfo_linux-amd64  /usr/bin/cfssl-certinfo
     fi
