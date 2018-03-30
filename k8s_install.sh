@@ -40,16 +40,16 @@ echo "3秒后开始安装......"
     fi
 
     if [ -f /etc/debian_version ];then
-    cat > /etc/apt/sources.list <<EOF
-deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
-EOF
+#     cat > /etc/apt/sources.list <<EOF
+# deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+# deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+# deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+# deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
+# EOF
              
-      apt-get -y update
-      apt-get install unzip -y
-      apt-get remove -y docker docker.io docker-ce docker-engine
+#       apt-get -y update
+#       apt-get install unzip -y
+#       apt-get remove -y docker docker.io docker-ce docker-engine
       else  
               wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
               yum clean all
@@ -115,7 +115,7 @@ ip link del docker0
 #判断IP地址是否合法
 
 echo -n "请分别输入1个MAsterIP和2个NodeIP，用空格分隔:  "
-nodeips="10.64.3.7 10.64.3.8 10.64.3.9"
+nodeips="10.64.3.6 10.64.3.16 10.64.3.5"
 # read nodeips
 
 for nodeip in $nodeips
@@ -189,7 +189,7 @@ SERVICE_CIDR="10.254.0.0/16"
 #POD 网段 (Cluster CIDR），部署前路由不可达，**部署后**路由可达 (flanneld 保证)
 CLUSTER_CIDR="172.30.0.0/16"
 #服务端口范围 (NodePort Range)
-NODE_PORT_RANGE="8400-9000"
+NODE_PORT_RANGE="8000-9000"
 #etcd 集群服务地址列表
 ETCD_ENDPOINTS="https://$MASTER_IP:2379,https://$NODE1_IP:2379,https://$NODE2_IP:2379"
 ETCD_NODES=$m_hostname=https://$MASTER_IP:2380,$n1_hostname=https://$NODE1_IP:2380,$n2_hostname=https://$NODE2_IP:2380
@@ -230,21 +230,21 @@ KUBE_APISERVER="https://${MASTER_IP}:6443"
     if [ ! -f  /usr/bin/cfssl ]; then
         cd /home/k8s/ssl
         rm -f ./*
-        wget http://192.168.32.112:8000/cfssl_linux-amd64
+        wget http://192.168.32.110:8000/cfssl_linux-amd64
         chmod +x cfssl_linux-amd64
         cp cfssl_linux-amd64  /usr/bin/cfssl
     fi
     
     if [ ! -f /usr/bin/cfssljson ]; then
         cd /home/k8s/ssl
-        wget http://192.168.32.112:8000/cfssljson_linux-amd64
+        wget http://192.168.32.110:8000/cfssljson_linux-amd64
         chmod +x cfssljson_linux-amd64
         cp cfssljson_linux-amd64  /usr/bin/cfssljson
     fi
     
     if [ ! -f  /usr/bin/cfssl-certinfo ]; then
         cd /home/k8s/ssl
-        wget http://192.168.32.112:8000/cfssl-certinfo_linux-amd64
+        wget http://192.168.32.110:8000/cfssl-certinfo_linux-amd64
         chmod +x cfssl-certinfo_linux-amd64
         cp cfssl-certinfo_linux-amd64  /usr/bin/cfssl-certinfo
     fi
@@ -367,7 +367,7 @@ INSTALL_ETCD()
     
     if [ ! -f /usr/bin/etcd ]; then
         rm etcd*
-        wget http://192.168.32.112:8000/etcd-v3.2.1-linux-amd64.tar.gz
+        wget http://192.168.32.110:8000/etcd-v3.2.1-linux-amd64.tar.gz
     fi
     
     tar -xvf etcd-v3.2.1-linux-amd64.tar.gz
@@ -475,7 +475,7 @@ cd /home/k8s
 
     if [ ! -f /usr/bin/kubectl ]; then
         rm -rf kubernetes*
-        wget http://192.168.32.112:8000/kubernetes-client-linux-amd64.tar.gz
+        wget http://192.168.32.110:8000/kubernetes-client-linux-amd64.tar.gz
         tar -xzvf kubernetes-client-linux-amd64.tar.gz
         cp kubernetes/client/bin/kube*  /usr/bin/
         chmod a+x  /usr/bin/kube*
@@ -563,7 +563,7 @@ EOF
     rm flanneld.csr flanneld-csr.json
     if [ ! -f /usr/bin/flanneld ]; then
         rm -rf flannel*
-        wget http://192.168.32.112:8000/flannel-v0.7.1-linux-amd64.tar.gz
+        wget http://192.168.32.110:8000/flannel-v0.7.1-linux-amd64.tar.gz
         mkdir flannel
         tar -xzvf flannel-v0.7.1-linux-amd64.tar.gz -C flannel
     fi
@@ -613,7 +613,7 @@ Docker()
     cd /home/k8s
     if [ ! -f /usr/bin/dockerd ];then 
          rm docker*
-         wget http://192.168.32.112:8000/docker-17.04.0-ce.tgz
+         wget http://192.168.32.110:8000/docker-17.04.0-ce.tgz
          rm -f /usr/local/bin/docker*
          rm -f /usr/bin/docker*
          tar -xvf docker-17.04.0-ce.tgz
@@ -659,6 +659,16 @@ EOF
     systemctl restart docker
     /usr/bin/docker version
 
+    sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://8ptwg7ev.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+
 }
 # 配置Kube-apiserver
 Kube_apiserver()
@@ -667,7 +677,7 @@ Kube_apiserver()
     cd /home/k8s
     if [ ! -f /usr/bin/kube-apiserver ];then
         rm  -rf kubernetes*
-        wget http://192.168.32.112:8000/kubernetes-server-linux-amd64.tar.gz
+        wget http://192.168.32.110:8000/kubernetes-server-linux-amd64.tar.gz
         tar -xzvf kubernetes-server-linux-amd64.tar.gz
         cd kubernetes && tar -xzvf  kubernetes-src.tar.gz
         cp -r server/bin/{kube-apiserver,kube-controller-manager,kube-scheduler,kubectl,kube-proxy,kubelet} /usr/bin/
@@ -837,7 +847,7 @@ Node()
     
     if [ ! -f /usr/bin/kubelet ];then
         rm -rf kubernetes*
-        wget http://192.168.32.112:8000/kubernetes-server-linux-amd64.tar.gz
+        wget http://192.168.32.110:8000/kubernetes-server-linux-amd64.tar.gz
         tar -xzvf kubernetes-server-linux-amd64.tar.gz
         cd kubernetes && tar -xzvf  kubernetes-src.tar.gz
         cp -r ./server/bin/{kube-proxy,kubelet} /usr/bin/
@@ -1034,7 +1044,7 @@ HEAPSTER()
     
     if [ ! -d heapster-1.4.0 ];then 
         rm -rf heapster*
-        wget http://192.168.32.112:8000/heapster-1.4.0.tar.gz
+        wget http://192.168.32.110:8000/heapster-1.4.0.tar.gz
     fi
     
     tar -zxvf heapster-1.4.0.tar.gz
@@ -1177,7 +1187,7 @@ Harbor()
     
     if [ ! -d harbor ];then
         rm -rf harbor*
-        wget  --continue  https://github.com/vmware/harbor/releases/download/v1.1.2/harbor-offline-installer-v1.1.2.tgz
+        wget  --continue  http://192.168.32.110:8000/harbor-offline-installer-v1.1.2.tgz
         tar -xzvf harbor-offline-installer-v1.1.2.tgz
         cd harbor
         docker load -i harbor.v1.1.2.tar.gz
