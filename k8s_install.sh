@@ -115,7 +115,7 @@ ip link del docker0
 #判断IP地址是否合法
 
 echo -n "请分别输入1个MAsterIP和2个NodeIP，用空格分隔:  "
-nodeips="10.64.3.6 10.64.3.16 10.64.3.5"
+nodeips="10.64.3.5 10.64.3.9 10.64.3.6"
 # read nodeips
 
 for nodeip in $nodeips
