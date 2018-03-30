@@ -39,26 +39,26 @@ echo "3秒后开始安装......"
         exit 1
     fi
 
-    if [ -f /etc/debian_version ];then
-#     cat > /etc/apt/sources.list <<EOF
-# deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
-# deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
-# deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
-# deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
-# EOF
+#     if [ -f /etc/debian_version ];then
+# #     cat > /etc/apt/sources.list <<EOF
+# # deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+# # deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+# # deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+# # deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
+# # EOF
              
-#       apt-get -y update
-#       apt-get install unzip -y
-#       apt-get remove -y docker docker.io docker-ce docker-engine
-      else  
-              wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
-              yum clean all
-              yum -y update
-              yum -y install unzip
-              systemctl stop firewalld
-              systemctl disable firewalld
-              yum -y remove docker docker.io docker-ce docker-engine
-         fi
+# #       apt-get -y update
+# #       apt-get install unzip -y
+# #       apt-get remove -y docker docker.io docker-ce docker-engine
+#       else  
+#               wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
+#               yum clean all
+#               yum -y update
+#               yum -y install unzip
+#               systemctl stop firewalld
+#               systemctl disable firewalld
+#               yum -y remove docker docker.io docker-ce docker-engine
+#          fi
          
 ##翻了个小墙
 
